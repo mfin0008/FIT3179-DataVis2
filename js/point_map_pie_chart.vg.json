@@ -76,7 +76,7 @@
                 },
                 {
                     "data": {
-                        "url": "https://raw.githubusercontent.com/mfin0008/FIT3179-DataVis2/main/data/earthquake_data.csv"
+                        "url": "https://raw.githubusercontent.com/mfin0008/FIT3179-DataVis2/main/data/modified_earthquake_data.csv"
                     },
                     "transform": [
                         {
@@ -155,84 +155,156 @@
             ]
         },
         {
-            "width": 1000,
-            "height": 600,
-            "title": "Proportion of alert levels",
-            "layer": [
+            "hconcat": [
                 {
+                    "width":700,
+                    "title": "Magnitude of Earthquakes over Time.",
                     "data": {
-                        "url": "https://raw.githubusercontent.com/mfin0008/FIT3179-DataVis2/main/data/earthquake_data.csv"
+                        "url": "https://raw.githubusercontent.com/mfin0008/FIT3179-DataVis2/main/data/modified_earthquake_data.csv"
                     },
                     "transform": [
                         {
-                            "filter": "datum.alert != ''"
+                            "filter": "datum.magnitude != ''"
+                        },
+                        {
+                            "filter": "datum.date_time != ''"
                         },
                         {
                             "filter": "selected_continent === 'All Continents' || datum.continent === selected_continent"
                         }
                     ],
+                    "mark": {
+                        "type": "line",
+                        "point": {
+                            "filled": false,
+                            "fill": "white"
+                        }
+                    },
                     "encoding": {
-                        "theta": {
-                            "field": "alert",
-                            "type": "quantitative",
-                            "aggregate": "count",
-                            "stack": true
+                        "x": {
+                            "timeUnit": "yearmonthdate",
+                            "field": "date_time"
+                        },
+                        "y": {
+                            "field": "magnitude",
+                            "type": "quantitative", 
+                            "scale": {"domain": [6,9.50]}
                         },
                         "color": {
-                            "field": "alert",
-                            "type": "nominal",
-                            "scale": {
-                                "range": [
-                                    "#4CBB17",
-                                    "#FF8A33",
-                                    "#FF5733",
-                                    "#FFF033",
-                                    "#33A0FF"
-                                ]
-                            },
-                            "title": "Alert Level"
+                            "field": "symbol",
+                            "type": "nominal"
                         },
                         "tooltip": [
                             {
-                                "field": "alert",
-                                "title": "Alert Level"
+                                "field": "title",
+                                "type": "nominal"
                             },
                             {
-                                "field": "alert",
+                                "field": "magnitude",
                                 "type": "quantitative",
-                                "aggregate": "count",
-                                "title": "Number of Occurrences"
+                                "title": "Magnitude [Richter Scale]"
+                            },
+                            {
+                                "field": "latitude",
+                                "type": "quantitative",
+                                "title": "Latitude"
+                            },
+                            {
+                                "field": "longitude",
+                                "type": "quantitative",
+                                "title": "Longitude"
+                            },
+                            {
+                                "timeUnit": "yearmonthdate",
+                                "field": "date_time",
+                                "type": "nominal",
+                                "title": "Date (dd-mm-yyyy)"
                             }
                         ]
-                    },
+                    }
+                },
+                {
+                    "width": 200,
+                    "height": 200,
+                    "title": "Proportion of alert levels",
                     "layer": [
                         {
-                            "mark": {
-                                "type": "arc"
-                            }
-                        },
-                        {
-                            "mark": {
-                                "type": "text",
-                                "radius": 320
+                            "data": {
+                                "url": "https://raw.githubusercontent.com/mfin0008/FIT3179-DataVis2/main/data/modified_earthquake_data.csv"
                             },
-                            "encoding": {
-                                "text": {
-                                    "field": "alert",
-                                    "type": "nominal"
+                            "transform": [
+                                {
+                                    "filter": "datum.alert != ''"
+                                },
+                                {
+                                    "filter": "selected_continent === 'All Continents' || datum.continent === selected_continent"
                                 }
-                            }
-                        },
-                        {
-                            "mark": {
-                                "type": "text",
-                                "align": "center",
-                                "baseline": "middle",
-                                "color": "black"
-                            }
+                            ],
+                            "encoding": {
+                                "theta": {
+                                    "field": "alert",
+                                    "type": "quantitative",
+                                    "aggregate": "count",
+                                    "stack": true
+                                },
+                                "color": {
+                                    "field": "alert",
+                                    "type": "nominal",
+                                    "scale": {
+                                        "range": [
+                                            "#4CBB17",
+                                            "#FF8A33",
+                                            "#FF5733",
+                                            "#FFF033",
+                                            "#33A0FF"
+                                        ]
+                                    },
+                                    "title": "Alert Level"
+                                },
+                                "tooltip": [
+                                    {
+                                        "field": "alert",
+                                        "title": "Alert Level"
+                                    },
+                                    {
+                                        "field": "alert",
+                                        "type": "quantitative",
+                                        "aggregate": "count",
+                                        "title": "Number of Occurrences"
+                                    }
+                                ]
+                            },
+                            "layer": [
+                                {
+                                    "mark": {
+                                        "type": "arc"
+                                    }
+                                },
+                                {
+                                    "mark": {
+                                        "type": "text",
+                                        "radius": 120
+                                    },
+                                    "encoding": {
+                                        "text": {
+                                            "field": "alert",
+                                            "type": "nominal"
+                                        }
+                                    }
+                                },
+                                {
+                                    "mark": {
+                                        "type": "text",
+                                        "align": "center",
+                                        "baseline": "middle",
+                                        "color": "black"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
+                
             ]
         }
     ]
